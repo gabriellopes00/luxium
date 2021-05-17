@@ -1,10 +1,32 @@
 package domain
 
 import (
+	"fmt"
+	"log"
 	"time"
-	// uuid "github.com/satori/go.uuid"
-	// "golang.org/x/crypto/bcrypt"
+
+	uuid "github.com/satori/go.uuid"
+	bcrypt "golang.org/x/crypto/bcrypt"
 )
+
+func Entrypoint(){
+	gabriel := Author{
+		Name: "gabrielloes",
+		Password: "gabriels",
+		Instagram: "gabriel@mail.como",
+		Email: "gabriel@mail.com",
+		Facebook: "face@lopes.com",
+		Twitter: "tt@lopes.com",
+		Avatar: "https://picture.png",
+		Description: "lorem ipsum dolor sit amet...",
+	}
+
+	err := gabriel.Create()
+	if(err != nil){
+		log.Fatal(err)
+	}
+	fmt.Println(gabriel)
+}
 
 type Author struct {
 	ID          string 		`json:"id"`
@@ -20,25 +42,16 @@ type Author struct {
 	UpdatedAt   time.Time `json:"updated_at"`
 }
 
-func NewAuthor(name string, email string, password string, description string, instagram string, 
-facebook string, twitter string, avatar string) (*Author, error) {
-	author := Author{
-		Name: name,
-		Email: email,
-		Instagram: instagram,
-		Facebook: facebook,
-		Twitter: twitter,
-		Avatar: avatar,
-		Description: description,
+func (author *Author) Create() error {
+	hash, err := bcrypt.GenerateFromPassword([]byte(author.Password), bcrypt.DefaultCost)
+	if err != nil {
+			log.Fatal(err)
 	}
 
-	// author.ID = uuid.NewV4().String()
-	// password, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+	author.Password = string(hash)
+	author.ID = uuid.NewV4().String()
 
-	// if err != nil {
-	// 	return err
-	// }
 	author.CreatedAt = time.Now().Local()
 	author.UpdatedAt = time.Now().Local()
-	return &author, nil
+	return nil
 }
