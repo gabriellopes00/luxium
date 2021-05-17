@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fixing-blog/domain"
+	"fixation-blog/domain"
 )
 
 func main() {

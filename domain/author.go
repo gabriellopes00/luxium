@@ -29,17 +29,17 @@ func Entrypoint(){
 }
 
 type Author struct {
-	ID          string 		`json:"id"`
-	Name        string 		`json:"name"`
-	Password    string 		`json:"-"`
-	Email       string 		`json:"email"`
-	Instagram   string 		`json:"instagram"`
-	Facebook    string 		`json:"facebook"`
-	Twitter     string 		`json:"twitter"`
-	Avatar      string 		`json:"avatar"`
-	Description string 		`json:"description"`
-	CreatedAt   time.Time `json:"created_at"`
-	UpdatedAt   time.Time `json:"updated_at"`
+	ID          string 		`json:"id" gorm:"type:uuid;primary_key"`
+	Name        string 		`json:"name" gorm:"type:varchar(255)"`
+	Password    string 		`json:"-" gorm:"type:varchar(255);unique_index"`
+	Email       string 		`json:"email" gorm:"type:varchar(255);unique_index"`
+	Instagram   string 		`json:"instagram" gorm:"type:varchar(255);unique_index"`
+	Facebook    string 		`json:"facebook" gorm:"type:varchar(255);unique_index"`
+	Twitter     string 		`json:"twitter" gorm:"type:varchar(255);unique_index"`
+	Avatar      string 		`json:"avatar" gorm:"type:varchar(255);unique_index"`
+	Description string 		`json:"description" gorm:"type:varchar(255)"`
+	CreatedAt   time.Time `json:"created_at" gorm:"type:datetime"`
+	UpdatedAt   time.Time `json:"updated_at" gorm:"type:datetime"`
 }
 
 func (author *Author) Create() error {
