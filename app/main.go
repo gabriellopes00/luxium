@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fixation-blog/domain"
+	"blog-golang/domain"
 )
 
 func main() {

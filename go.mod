@@ -1,4 +1,4 @@
-module fixation-blog
+module blog-golang
 
 go 1.16
 

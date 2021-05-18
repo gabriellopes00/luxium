@@ -1,0 +1,15 @@
+version: '3.9'
+
+services:
+  postgresql:
+    container_name: blog-golang-db
+    image: postgres:13-alpine
+    restart: always
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: blog
+      POSTGRES_PASSWORD: bloggolangpass
+      POSTGRES_DB: blog-go
