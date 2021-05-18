@@ -1,32 +1,12 @@
 package domain
 
 import (
-	"fmt"
 	"log"
 	"time"
 
 	uuid "github.com/satori/go.uuid"
 	bcrypt "golang.org/x/crypto/bcrypt"
 )
-
-func Entrypoint() {
-	gabriel := Author{
-		Name:        "gabrielloes",
-		Password:    "gabriels",
-		Instagram:   "gabriel@mail.como",
-		Email:       "gabriel@mail.com",
-		Facebook:    "face@lopes.com",
-		Twitter:     "tt@lopes.com",
-		Avatar:      "https://picture.png",
-		Description: "lorem ipsum dolor sit amet...",
-	}
-
-	err := gabriel.Create()
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println(gabriel)
-}
 
 type Author struct {
 	ID          string    `json:"id" gorm:"type:uuid;primary_key"`
