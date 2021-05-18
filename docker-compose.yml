@@ -6,7 +6,7 @@ services:
     image: postgres:13-alpine
     restart: always
     volumes:
-      - dbdata:/var/lib/postgresql/data
+      - blog-golang-data:/var/lib/postgresql/data
     ports:
       - '5432:5432'
     environment:

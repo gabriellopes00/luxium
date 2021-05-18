@@ -1,6 +1,7 @@
 package domain
 
 import (
+	"context"
 	"log"
 	"time"
 
@@ -9,20 +10,17 @@ import (
 )
 
 type Author struct {
-	ID          string    `json:"id" gorm:"type:uuid;primary_key"`
-	Name        string    `json:"name" gorm:"type:varchar(255)"`
-	Password    string    `json:"-" gorm:"type:varchar(255);unique_index"`
-	Email       string    `json:"email" gorm:"type:varchar(255);unique_index"`
-	Instagram   string    `json:"instagram" gorm:"type:varchar(255);unique_index"`
-	Facebook    string    `json:"facebook" gorm:"type:varchar(255);unique_index"`
-	Twitter     string    `json:"twitter" gorm:"type:varchar(255);unique_index"`
-	Avatar      string    `json:"avatar" gorm:"type:varchar(255);unique_index"`
-	Description string    `json:"description" gorm:"type:varchar(255)"`
-	CreatedAt   time.Time `json:"created_at" gorm:"type:datetime"`
-	UpdatedAt   time.Time `json:"updated_at" gorm:"type:datetime"`
+	ID          string    `json:"id"`
+	Name        string    `json:"name"`
+	Email       string    `json:"email"`
+	Password    string    `json:"-"`
+	Avatar      string    `json:"avatar"`
+	Description string    `json:"description"`
+	CreatedAt   time.Time `json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
 }
 
-func (author *Author) Create() error {
+func (author *Author) CreateAuthor() error {
 	hash, err := bcrypt.GenerateFromPassword([]byte(author.Password), bcrypt.DefaultCost)
 	if err != nil {
 		log.Fatal(err)
@@ -34,4 +32,14 @@ func (author *Author) Create() error {
 	author.CreatedAt = time.Now().Local()
 	author.UpdatedAt = time.Now().Local()
 	return nil
+}
+
+type AuthorUsecase interface {
+	GetByID(ctx context.Context, id int64) (Author, error)
+	Add(context.Context, *Author) error
+}
+
+type AuthorRepository interface {
+	FindByID(ctx context.Context, id int64) (Author, error)
+	Store(ctx context.Context, a *Author) error
 }
