@@ -10,10 +10,7 @@ func main() {
 	gabriel := domain.Author{
 		Name:        "gabrielloes",
 		Password:    "gabriels",
-		Instagram:   "gabriel@mail.como",
 		Email:       "gabriel@mail.com",
-		Facebook:    "face@lopes.com",
-		Twitter:     "tt@lopes.com",
 		Avatar:      "https://picture.png",
 		Description: "lorem ipsum dolor sit amet...",
 	}

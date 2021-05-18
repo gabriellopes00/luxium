@@ -13,9 +13,6 @@ type Author struct {
 	Name        string    `json:"name" gorm:"type:varchar(255)"`
 	Password    string    `json:"-" gorm:"type:varchar(255);unique_index"`
 	Email       string    `json:"email" gorm:"type:varchar(255);unique_index"`
-	Instagram   string    `json:"instagram" gorm:"type:varchar(255);unique_index"`
-	Facebook    string    `json:"facebook" gorm:"type:varchar(255);unique_index"`
-	Twitter     string    `json:"twitter" gorm:"type:varchar(255);unique_index"`
 	Avatar      string    `json:"avatar" gorm:"type:varchar(255);unique_index"`
 	Description string    `json:"description" gorm:"type:varchar(255)"`
 	CreatedAt   time.Time `json:"created_at" gorm:"type:datetime"`
