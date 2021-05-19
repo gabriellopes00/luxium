@@ -15,8 +15,8 @@ type Author struct {
 	Email       string    `json:"email" gorm:"type:varchar(255);unique_index"`
 	Avatar      string    `json:"avatar" gorm:"type:varchar(255);unique_index"`
 	Description string    `json:"description" gorm:"type:varchar(255)"`
-	CreatedAt   time.Time `json:"created_at" gorm:"type:datetime"`
-	UpdatedAt   time.Time `json:"updated_at" gorm:"type:datetime"`
+	CreatedAt   time.Time `json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
 }
 
 func (author *Author) Create() error {

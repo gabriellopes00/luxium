@@ -1,4 +1,4 @@
-package utils
+package database
 
 import (
 	"log"
@@ -6,6 +6,7 @@ import (
 
 	"github.com/jinzhu/gorm"
 	"github.com/joho/godotenv"
+	_ "github.com/lib/pq"
 
 	"blog-golang/domain"
 )

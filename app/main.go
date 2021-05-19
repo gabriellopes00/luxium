@@ -2,21 +2,28 @@ package main
 
 import (
 	"blog-golang/domain"
+	"blog-golang/infra/database"
+	"blog-golang/infra/database/repositories"
 	"fmt"
 	"log"
 )
 
 func main() {
-	gabriel := domain.Author{
-		Name:        "gabrielloes",
-		Password:    "gabriels",
-		Email:       "gabriel@mail.com",
-		Avatar:      "https://picture.png",
-		Description: "lorem ipsum dolor sit amet...",
+	author := domain.Author{
+		Name:        "Gabriel Luís Lopes",
+		Email:       "gabriellopes00@mail.com",
+		Password:    "golang1234",
+		Description: "Golang developer...",
+		Avatar:      "https://avatars.githubusercontent.com/u/69465943?v=4",
 	}
-	err := gabriel.Create()
+
+	db := database.ConnectPg()
+	authorRepo := repositories.GormAuthorRepository{Db: db}
+
+	newAuthor, err := authorRepo.Insert(&author)
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(gabriel)
+
+	fmt.Println(newAuthor)
 }
