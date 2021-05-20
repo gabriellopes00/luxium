@@ -2,8 +2,8 @@ package main
 
 import (
 	"blog-golang/domain"
-	"blog-golang/infra/database"
-	"blog-golang/infra/database/repositories"
+	database "blog-golang/infra"
+	"blog-golang/infra/repositories"
 	"fmt"
 	"log"
 )

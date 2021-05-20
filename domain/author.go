@@ -11,14 +11,14 @@ import (
 )
 
 type Author struct {
-	ID          string    `json:"id" gorm:"type:uuid;primary_key"`
-	Name        string    `json:"name" gorm:"type:varchar(255)"`
-	Password    string    `json:"-" gorm:"type:varchar(255);unique_index"`
-	Email       string    `json:"email" gorm:"type:varchar(255);unique_index"`
-	Avatar      string    `json:"avatar" gorm:"type:varchar(255);unique_index"`
-	Description string    `json:"description" gorm:"type:varchar(255)"`
-	CreatedAt   time.Time `json:"created_at"`
-	UpdatedAt   time.Time `json:"updated_at"`
+	ID          string    `json:"id" gorm:"type:uuid;primary_key" valid:"uuid"`
+	Name        string    `json:"name" gorm:"type:varchar(255)" valid:"notnull"`
+	Password    string    `json:"-" gorm:"type:varchar(255);unique_index" valid:"notnull"`
+	Email       string    `json:"email" gorm:"type:varchar(255);unique_index" valid:"notnull,email"`
+	Avatar      string    `json:"avatar" gorm:"type:varchar(255);unique_index" valid:"notnull,url"`
+	Description string    `json:"description" gorm:"type:varchar(255)" valid:"notnull"`
+	CreatedAt   time.Time `json:"created_at" valid:"-"`
+	UpdatedAt   time.Time `json:"updated_at" valid:"-"`
 }
 
 func (author *Author) Create() error {
@@ -36,25 +36,19 @@ func (author *Author) Create() error {
 }
 
 func (author *Author) validate() error {
-	isNull := validator.IsNull(author.Name)
-	if isNull {
-		return errors.New("")
+	_, err := validator.ValidateStruct(author)
+	if err != nil {
+		return err
 	}
 
-	isNull = validator.IsNull(author.Password)
-	if isNull {
-		return errors.New("")
+	isValid := len(author.Name) >= 3
+	if !isValid {
+		return errors.New("invalid param: name")
 	}
 
-	isEmail := validator.IsEmail(author.Email)
-	if !isEmail {
-		return errors.New("")
-
-	}
-
-	isUrl := validator.IsURL(author.Avatar)
-	if !isUrl {
-		return errors.New("")
+	isValid = len(author.Password) >= 4
+	if !isValid {
+		return errors.New("invalid param: password")
 	}
 
 	return nil
