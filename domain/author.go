@@ -1,9 +1,11 @@
 package domain
 
 import (
+	"errors"
 	"log"
 	"time"
 
+	validator "github.com/asaskevich/govalidator"
 	uuid "github.com/satori/go.uuid"
 	bcrypt "golang.org/x/crypto/bcrypt"
 )
@@ -20,9 +22,49 @@ type Author struct {
 }
 
 func (author *Author) Create() error {
+	err := author.validate()
+	if err != nil {
+		return err
+	}
+
+	err = author.build()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (author *Author) validate() error {
+	isNull := validator.IsNull(author.Name)
+	if isNull {
+		return errors.New("")
+	}
+
+	isNull = validator.IsNull(author.Password)
+	if isNull {
+		return errors.New("")
+	}
+
+	isEmail := validator.IsEmail(author.Email)
+	if !isEmail {
+		return errors.New("")
+
+	}
+
+	isUrl := validator.IsURL(author.Avatar)
+	if !isUrl {
+		return errors.New("")
+	}
+
+	return nil
+}
+
+func (author *Author) build() error {
 	hash, err := bcrypt.GenerateFromPassword([]byte(author.Password), bcrypt.DefaultCost)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalln(err)
+		return err
 	}
 
 	author.Password = string(hash)
