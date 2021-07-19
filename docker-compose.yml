@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   postgresql:
-    container_name: blog-golang-db
+    container_name: lux_db
     image: postgres:13-alpine
     restart: always
     volumes:
@@ -10,6 +10,28 @@ services:
     ports:
       - '5432:5432'
     environment:
-      POSTGRES_USER: blog
-      POSTGRES_PASSWORD: bloggolangpass
-      POSTGRES_DB: blog-go
+      POSTGRES_USER: lux
+      POSTGRES_PASSWORD: luxpg
+      POSTGRES_DB: luxdb
+    networks:
+      - lux
+
+  api:
+    container_name: lux_api
+    depends_on:
+      - postgresql
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env
+    networks:
+      - lux
+    ports:
+      - '5590:5590'
+
+networks:
+  lux:
+    driver: bridge
+
+volumes:
+  dbdata:
